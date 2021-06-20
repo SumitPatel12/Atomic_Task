@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
     #? APPS ?#
     'TodoBackend.apps.TodobackendConfig',
+    'User.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
