@@ -3,7 +3,8 @@ from django.db.models import fields
 from rest_framework import serializers
 from .models import Todo
 
+
 class TodoSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Todo
-        fields = ['id', 'title', 'description', 'completed']
+        fields = ['title_id', 'title', 'description', 'status']
