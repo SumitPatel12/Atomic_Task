@@ -1,13 +1,10 @@
-import re
-from rest_framework import viewsets
-from rest_framework import serializers
-from rest_framework.serializers import Serializer
 from .serializers import UserSerializer
 from .models import User
 from TodoBackend.models import Todo
 from TodoBackend.serializers import TodoSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import uuid
 
 # {
 #     "user_name" : "Sumit",
@@ -37,57 +34,21 @@ def CreateUser(request):
 
 @api_view(['POST'])
 def DeleteUser(request):
-    serializer = UserSerializer(data=request.data)
-    print(serializer.is_valid())
-    if serializer.is_valid():
-        try:
-            # print(serializer.data)
-            user = User.objects.get(
-                user_name=serializer.data['user_name'], password=serializer.data['password'])
-            # print(serializer.data['user_name'])
-            user.delete()
-            return Response("Successfully Deleted The User", status=201)
-        except:
-            return Response("User Does Not Exist", status=401)
-    return Response("Serialization Error")
+    try:
+        user_id = uuid.UUID(request.data['user_id'])
+        user = User.objects.get(user_id = user_id)
+        user.delete()
+        return Response("Successfully Deleted The User", status=201)
+    except:
+        return Response("User Does Not Exist", status=401)
 
 
 @api_view(['POST'])
 def Login(request):
-    if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-
-        if serializer.is_valid():
-            try:
-                # print(serializer.data)
-                user = User.objects.get(
-                    user_name=serializer.data['user_name'], password=serializer.data['password'])
-                # print(serializer.data['user_name'])
-                user_serialized = UserSerializer(user)
-                return Response(user_serialized.data, status=201)
-            except:
-                return Response("User Does Not Exist", status=401)
-        else:
-            return Response("Error Occured", status=400)
-
-
-@api_view(['POST'])
-def UserTask(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        try:
-            # print(serializer.data)
-            user = User.objects.get(
-                user_name=serializer.data['user_name'], password=serializer.data['password'])
-            # print(serializer.data['user_name'])
-            user_serialized = UserSerializer(user)
-            #print('\n\n',user_serialized.data['user_id'], '\n\n')
-            try:
-                tasks = Todo.objects.filter(
-                    user_id=user_serialized.data['user_id'])
-                task_serialized = TodoSerializer(tasks, many=True)
-                return Response(task_serialized.data, status=201)
-            except:
-                return Response("Task Error")
-        except:
-            return Response("User Does Not Exist", status=401)
+    try:
+        user = User.objects.get(
+            user_name=request.data['user_name'], password=request.data['password'])
+        user_serialized = UserSerializer(user)
+        return Response(user_serialized.data, status=201)
+    except:
+        return Response("User Does Not Exist", status=401)
