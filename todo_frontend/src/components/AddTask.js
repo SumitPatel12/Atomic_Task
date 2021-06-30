@@ -1,7 +1,7 @@
 import React,{ useState} from 'react';
 import axios from 'axios';
 
-const AddTask = ({ refreshList }) => {
+const AddTask = ({ refreshList,user_id }) => {
 
     const [title,setTitle] = useState("");
     const [description,setDescription] =useState("");
@@ -9,12 +9,13 @@ const AddTask = ({ refreshList }) => {
 
     const handleSubmit = async() => {
         const item = {
-            "title" : title,
-            "description": description,
-            "status": status
+            user_id: user_id,
+            title : title,
+            description: description,
+            status: status
         };
         try {
-            await axios.post(`http://localhost:8000/api/tasks/`, item);
+            await axios.post(`http://localhost:8000/task/create-task/`, item);
             refreshList();
         } catch (err) {
             console.log(err.message);
@@ -63,9 +64,9 @@ const AddTask = ({ refreshList }) => {
                         <div className="form-group">
                             <lable htmlFor="status">Status</lable>
                             <select className="from-control" id="status" name="status" onChange={(e) => setStatus(e.target.value)}>
-                                <option value="todo"></option>
-                                <optoin value="Inprogress"></optoin>
-                                <option value="completed"></option>
+                                <option >todo</option>
+                                <optoin >Inprogress</optoin>
+                                <option>completed</option>
                             </select>
                         </div>
                     </div>

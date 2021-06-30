@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const SignUp = () => {
     const [name,setName] = useState("");
     const [email,setEmail] = useState("");
     const [recoveryemail,setRecoveryEmail]=useState("");
     const [password,setPassword] = useState("");    
+
+    const createUser = async () => {
+        const data={
+            user_name: name,
+            email : email,
+            recovery_email: recoveryemail,
+            password : password
+        };
+         await axios.post('http://localhost:8000/user/create/',data);        
+
+    };
+
     return(<div>
         <div className="container">
             <div className="form-group">
@@ -35,6 +48,7 @@ const SignUp = () => {
                     value={password} onChange={(e) => setPassword(e.target.value)} 
                 />
             </div>
+            <button className="btn btn-success" onClick={createUser}>SignUp</button>
 
         </div>
     </div>);

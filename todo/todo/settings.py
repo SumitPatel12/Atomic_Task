@@ -12,7 +12,7 @@ SECRET_KEY = '^-)no%53yq6rx@bxx=@6r6n&+-lcbpc+dvzn%!ff8+sp0-mb6_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS=[]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
     #? APPS ?#
     'TodoBackend.apps.TodobackendConfig',
+    'User.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -102,7 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 #? Whitelist the React port using cors headers ?#
-
 
 
 # Internationalization

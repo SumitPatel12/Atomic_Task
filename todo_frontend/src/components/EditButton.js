@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import axios from 'axios';
 
-const  EditButton = ({ refreshList }) => {
+const  EditButton = ({ refreshList,todo_id,user_id }) => {
     
     const [title,setTitle] = useState("");
     const [description,setDescription] =useState("");
@@ -9,12 +9,14 @@ const  EditButton = ({ refreshList }) => {
 
     const handleSubmit = async() => {
         const item = {
-            "title" : title,
-            "description": description,
-            "completed": completed
+            todo_id: todo_id,
+            user_id: user_id,
+            title : title,
+            description: description,
+            completed: completed
         };
         try {
-            await axios.put(`http://localhost:8000/api/tasks/`, item);
+            await axios.put(`http://localhost:8000/task/update-task/${todo_id}`, item);
             refreshList();
         } catch (err) {
             console.log(err.message);
@@ -39,7 +41,7 @@ const  EditButton = ({ refreshList }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <button type="button" className="close" data-dismiss="modal">&times;</button>
-                        <h4 className="modal-title">Add Task</h4>
+                        <h4 className="modal-title">Edit Task</h4>
                     </div>
                     <div className="modal-body">
                         <div className="form-group">
@@ -60,7 +62,7 @@ const  EditButton = ({ refreshList }) => {
                         </div>
                     </div>
                     <div className="modal-footer">
-                    <button type="button" className="btn btn-success" onClick={handleSubmit}>Add</button>
+                        <button type="button" className="btn btn-success" onClick={handleSubmit}>Edit</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
